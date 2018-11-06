@@ -1,24 +1,29 @@
-# npcm7xx-bootblock
-Nuvoton Technology Corporation
-NPCM750 (Poleg) BootBlock Release Letter
-Copyright (c) 2013-2017 Nuvoton Technology Corporation. All Rights Reserved.
+-----------------------------------------------------------------------------
+Nuvoton Technology Corporation - Confidential
+NPCM7XX (Poleg) BootBlock Release Letter
+Copyright (c) 2013-2018 Nuvoton Technology Corporation. All Rights Reserved.
+-----------------------------------------------------------------------------
 
-Binary bootblock for nuvoton npcm7xx BMC chips
+NPCM7XX bootBlock Package
 Release Letter
-Version: 10.06.08
-Date:    April 2017
+Version: 10.09.02
+Date:    Oct 2018
+
+This package is released under the terms of the Source Code License Agreement,
+signed between Nuvoton and your company.
+
 
 PACKAGE CONTENTS
 ----------------
 This package contains the following files/folders:
-- bootblock-release-letter.txt     - This release letter
-- Poleg_bootblock.bin              - Output image bin
-- Images\crc.log                   - Output image crc
+- BootBlock_Sources_RelLetter.txt                     - This release letter
+- Images\Poleg_bootblock.bin                          - Output image bin
+- Images\crc.log                                      - Output image crc
 
 
 DESCRIPTION
 -----------
-This package contains the Nuvoton Poleg bootBlock for the NPCM7xx BMC chips.
+This package contains the Nuvoton Poleg bootBlock for the NPCM7XX.
 This package is released in beta quality.
 The BootBlock meets the security requirements as specified in SecureBootNuvoton_201401216.docx
 
@@ -28,11 +33,71 @@ If the BootBlock is loaded to chip you can view it via u-boot or JTAG at address
 
 REQUIREMENTS
 ------------
-Hardware:
-- A Nuvoton NPCM7xx Silicon  BMC device.
+Hardware: One of the following chips:
+- A Nuvoton NPCM750 A1 Silicon version BMC device.
+- A Nuvoton NPCM730 A1 Silicon version BMC device.
 
 
 INSTALLATION PROCEDURE
 ----------------------
-After compilation (see HowToBuild.txt) program   deliverables\bootblock\Images\Poleg_bootblock.bin 
+After compilation (see HowToBuild.txt) program   deliverables\bootblock\Images\Poleg_bootblock.bin
 to flash via the programming scripts or other means.
+
+
+ENHANCEMENTS
+------------
+Bootblock 10.09.02
+==================
+- Disable KBCI irq in warm boot. This is needed to eliminate race condition.
+
+
+FIXED ISSUES
+------------
+- None.
+
+
+KNOWN ISSUES
+------------
+- None.
+
+HISTORY
+-------
+Bootblock 10.09.01
+==================
+- Disable KCS and post code irq in warm boot. This is needed to eliminate race
+condition.
+
+Bootblock 10.09.00
+==================
+- ECC training: add enhanced sweep option for ECC lane as well. This will
+	increase jitter tolerance.
+
+Bootblock 10.08.09
+==================
+- Bug fix ECC training
+
+
+Bootblock 10.08.08
+==================
+- MC: fix issue in enhanced training. Reduce the runtime.
+
+Bootblock 10.08.07
+==================
+- MC: Add support for ECC disable and enhanced training disable on header.
+  default: do enhanced training, use ECC if present.
+- MC:  double refresh rate in PHY to support 1GB DRAM devices. (350ns)
+
+Bootblock 10.08.05
+==================
+- Print to UART0 on Nuvoton board.
+- Note:   Need to update UBOOT and LINUX as well. To see prints on SI2
+  need to set STRAP11 On.
+
+Bootblock 10.08.00
+==================
+- Support NPCM730.
+
+
+-----------------------------------------------------------
+For contact information see "Contact Us" at www.nuvoton.com
+-----------------------------------------------------------
