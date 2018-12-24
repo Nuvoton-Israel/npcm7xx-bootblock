@@ -6,8 +6,8 @@ Copyright (c) 2013-2018 Nuvoton Technology Corporation. All Rights Reserved.
 
 NPCM7XX bootBlock Package
 Release Letter
-Version: 10.09.02
-Date:    Oct 2018
+Version: 10.09.05
+Date:    Dec 2018
 
 This package is released under the terms of the Source Code License Agreement,
 signed between Nuvoton and your company.
@@ -17,7 +17,16 @@ PACKAGE CONTENTS
 ----------------
 This package contains the following files/folders:
 - BootBlock_Sources_RelLetter.txt                     - This release letter
+- Sources\Src\                                        - Main source files
+- Sources\SWC_DEFS\                                   - definition source files
+- Sources\SWC_HAL\                                    - HW drivers files
+- Sources\Build.bat, clean.bat, makefile              - Building batch files
+- Sources\HowToBuild.txt                              - How to build description
+- Images\Poleg_bootblock.asm                          - Output image asm
+- Images\Poleg_bootblock.elf                          - Output image elf
+- Images\Poleg_bootblock.dat                          - Output image dat
 - Images\Poleg_bootblock.bin                          - Output image bin
+- Images\Poleg_bootblock.axf                          - Output image axf
 - Images\crc.log                                      - Output image crc
 
 
@@ -46,9 +55,13 @@ to flash via the programming scripts or other means.
 
 ENHANCEMENTS
 ------------
-Bootblock 10.09.02
+Bootblock 10.09.05
 ==================
-- Disable KBCI irq in warm boot. This is needed to eliminate race condition.
+- Add a field in the header to select eSPI or LPC mode. Offset is 301 from start.
+  	0xFF: Do nothing as current BB version 
+	0x00: configure pins to LPC + GPIO168 to TRIS + enable LPC  + release HOSTWAIT. 
+	0x01: configure pins to eSPI + GPIO162 to TRIS + enable eSPI
+	0x02: configure pins to GPIOs TRIS. 
 
 
 FIXED ISSUES
@@ -62,6 +75,22 @@ KNOWN ISSUES
 
 HISTORY
 -------
+Bootblock 10.09.04
+==================
+- Support RUN_BMC.
+- Add an option to set PLL0 when CPU frequency == MC Frequency (and assigned to
+  PLL1). For Run BMC PLL0 (TOCK signal) is set to 125MHz.
+
+
+Bootblock 10.09.03
+==================
+- KCS: IBFIE disables in CORST.
+
+Bootblock 10.09.02
+==================
+- Disable KBCI irq in warm boot. This is needed to eliminate race condition.
+
+
 Bootblock 10.09.01
 ==================
 - Disable KCS and post code irq in warm boot. This is needed to eliminate race
