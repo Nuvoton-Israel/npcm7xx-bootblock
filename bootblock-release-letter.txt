@@ -1,80 +1,154 @@
------------------------------------------------------------------------------
-Nuvoton Technology Corporation - Confidential
-NPCM7XX (Poleg) BootBlock Release Letter
-Copyright (c) 2013-2018 Nuvoton Technology Corporation. All Rights Reserved.
------------------------------------------------------------------------------
+----------------------------------------------------------------------                                  
+ Copyright (c) 2010-2019 by Nuvoton Technology Corporation - confidential   
+ All rights reserved       
 
-NPCM7XX bootBlock Package
+ NPCM7XX (Poleg) BootBlock Release Letter 
+----------------------------------------------------------------------
+
+# NPCM7XX bootBlock Package
 Release Letter
-Version: 10.09.05
-Date:    Dec 2018
-
-This package is released under the terms of the Source Code License Agreement,
-signed between Nuvoton and your company.
+Version: 10.10.11
+Date:    Nov 2019
 
 
-PACKAGE CONTENTS
+# PACKAGE CONTENTS
 ----------------
 This package contains the following files/folders:
-- BootBlock_Sources_RelLetter.txt                     - This release letter
-- Sources\Src\                                        - Main source files
-- Sources\SWC_DEFS\                                   - definition source files
-- Sources\SWC_HAL\                                    - HW drivers files
-- Sources\Build.bat, clean.bat, makefile              - Building batch files
-- Sources\HowToBuild.txt                              - How to build description
-- Images\Poleg_bootblock.asm                          - Output image asm
-- Images\Poleg_bootblock.elf                          - Output image elf
-- Images\Poleg_bootblock.dat                          - Output image dat
-- Images\Poleg_bootblock.bin                          - Output image bin
-- Images\Poleg_bootblock.axf                          - Output image axf
-- Images\crc.log                                      - Output image crc
+- BootBlock_RelLetter.txt                             - This release letter
+- Poleg_bootblock_secure.bin                            - Output image bin
 
 
-DESCRIPTION
+# DESCRIPTION
 -----------
 This package contains the Nuvoton Poleg bootBlock for the NPCM7XX.
 This package is released in beta quality.
-The BootBlock meets the security requirements as specified in SecureBootNuvoton_201401216.docx
-
-Inside the binary there is a change log at offset 0x40 of Poleg_bootblock.bin in text format (in addition to the version at offset 0xF4).
-If the BootBlock is loaded to chip you can view it via u-boot or JTAG at address 0x80000240.
 
 
-REQUIREMENTS
+# REQUIREMENTS
 ------------
-Hardware: One of the following chips:
-- A Nuvoton NPCM750 A1 Silicon version BMC device.
-- A Nuvoton NPCM730 A1 Silicon version BMC device.
+Hardware:
+- A Nuvoton NPCM7XX A1 Silicon BMC device.
 
 
-INSTALLATION PROCEDURE
+# INSTALLATION PROCEDURE
 ----------------------
-After compilation (see HowToBuild.txt) program   deliverables\bootblock\Images\Poleg_bootblock.bin
-to flash via the programming scripts or other means.
+After compilation (see HowToBuild.txt) program   deliverables\bootblock\Images\Poleg_bootblock_basic.bin
+to flash via the IGPS (https://github.com/Nuvoton-Israel/igps) or other means.
 
 
-ENHANCEMENTS
+# ENHANCEMENTS
 ------------
+Bootblock 10.10.11     Date: 26.11.19 
+==================     ===============
+- Fix an issue in INTCR3 settings (FIU_FIX field).
+
+
+# FIXED ISSUES
+------------
+- None.
+
+
+# KNOWN ISSUES
+------------
+- None.
+
+
+# HISTORY
+-------
+Bootblock 10.10.10     Date: 17.11.19 
+==================     ===============
+- MC: in enhanced training: change the sweep range accrording to the location of the step. (run time optimization)
+
+Bootblock 10.10.09     Date: 27.10.19 
+==================     ===============
+- CLK: fix an issue when setting MC and CPU clocks to different values (using the header).
+- eSPI: init only on PORST. 
+
+
+Bootblock 10.10.08
+==================
+- MC: longer memory test in DQS sweep.
+- MC: fix enhanced training (DQS optimized eye selection)
+      Read leveling only inside enhanced training (less time to run).
+      
+      
+Bootblock 10.10.07
+==================
+- Set INTCR3.FIX_FIX.
+- WP open only during update or logging.
+- Allow secured rollback.
+- Add self test to WP.
+
+Bootblock 10.10.06 
+==================
+- NIST: LED blink while update\recovery is now 4Hz.
+
+Bootblock 10.10.05 
+==================
+- NIST: bug fix: when setting status register of flash need to wait for BUSY bit to clear.
+- Reset BB mailbox status before use (before boot starts it still show the status from last reset (not related to PORST). 
+
+Bootblock 10.10.04 
+==================
+- NIST: limit uboot OTP version to 24 bytes (192 versions).
+- NIST: lock the OTP before jump to uboot (FCFG1,2)
+- NIST: Fix issue in WP~ locking. Use status register instead. 
+
+
+Bootblock 10.10.03 
+==================
+- NIST: Bug fix WP~ while using Flash#1.
+- NIST: GPIO blink pattern.
+
+
+Bootblock 10.10.01 
+==================
+- Write 0xFF on the public key to be invalidated. (Key will show CRC error).
+- Add WD num field and WD stay on to header.
+- GPIO toggle while copy flash. GPIO value selected on header. 
+- Bug fix: Add key number to the log. Print more info (update, recovery and halt).
+- Print key status in text, not value. For readability.
+
+
+Bootblock 10.10.00 
+==================
+- NIST: bug fix: write tag after writing version number to OTP.
+- NIST: bug fix: PK_INVLID - write only these bit to FUSTRAP (previous version set oSecBoot as well).
+- Re-arrange heaader fields. See BootBlock user guide for details.
+
+Bootblock 10.09.09
+==================
+- Bug fix: program from end of last hole to end of flash was not performed.
+
+
+Bootblock 10.09.08
+==================
+- NIST will not run if oAltImageLoc is not fused.
+- OTP : skip three smirred bytes in OTP uboot version. Also print it all.
+- Bug fix: if security log is not defined skip logging.
+- NIST: Add key revoking.
+- If ROM code runs in basic mode so does the BB, regardless of the header.
+- Stop WD when halt.
+
+Bootblock 10.09.07
+==================
+- Support security compliant to NIST800-193.
+	* all features from spec included, except for key revoke.
+
+	
+Bootblock 10.09.06
+==================
+- Support security compliant to NIST800-193.
+	* all features from spec included, except for security log and key revoke.
+
 Bootblock 10.09.05
 ==================
 - Add a field in the header to select eSPI or LPC mode. Offset is 301 from start.
-  	0xFF: Do nothing as current BB version 
-	0x00: configure pins to LPC + GPIO168 to TRIS + enable LPC  + release HOSTWAIT. 
+  	0xFF: Do nothing as current BB version
+	0x00: configure pins to LPC + GPIO168 to TRIS + enable LPC  + release HOSTWAIT.
 	0x01: configure pins to eSPI + GPIO162 to TRIS + enable eSPI
-	0x02: configure pins to GPIOs TRIS. 
+	0x02: configure pins to GPIOs TRIS.
 
-
-FIXED ISSUES
-------------
-- None.
-
-
-KNOWN ISSUES
-------------
-- None.
-
-HISTORY
--------
 Bootblock 10.09.04
 ==================
 - Support RUN_BMC.
