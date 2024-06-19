@@ -1,3 +1,8 @@
+# This repo is obsolete, 
+# please use https://github.com/Nuvoton-Israel/bootblock instead.
+
+
+
 -----------------------------------------------------------------------------
 Nuvoton Technology Corporation - Confidential
 NPCM7XX (Poleg) BootBlock Release Letter
